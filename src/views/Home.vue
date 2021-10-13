@@ -38,7 +38,7 @@
                               <div>
                                    <div class="status-col">
                                         <b-button type="is-text" @click="() => (this.collapseStatus.uploading = !this.collapseStatus.uploading)">
-                                             <b-icon :icon="!collapseStatus.uploading ? 'menu-down' : 'menu-up'"> </b-icon>
+                                             <b-icon :icon="!collapseStatus.uploading ? 'chevron-down' : 'chevron-up'"> </b-icon>
                                         </b-button>
                                    </div>
                               </div>
@@ -72,7 +72,7 @@
                               <div>
                                    <div class="status-col">
                                         <b-button type="is-text" @click="() => (this.collapseStatus.nextup = !this.collapseStatus.nextup)">
-                                             <b-icon :icon="!collapseStatus.nextup ? 'menu-down' : 'menu-up'"> </b-icon>
+                                             <b-icon :icon="!collapseStatus.nextup ? 'chevron-down' : 'chevron-up'"> </b-icon>
                                         </b-button>
                                    </div>
                               </div>
@@ -105,7 +105,7 @@
                               <div>
                                    <div class="status-col">
                                         <b-button type="is-text" @click="() => (this.collapseStatus.completed = !this.collapseStatus.completed)">
-                                             <b-icon :icon="!collapseStatus.completed ? 'menu-down' : 'menu-up'"> </b-icon>
+                                             <b-icon :icon="!collapseStatus.completed ? 'chevron-down' : 'chevron-up'"> </b-icon>
                                         </b-button>
                                    </div>
                               </div>
@@ -141,7 +141,7 @@
                               <div>
                                    <div class="status-col">
                                         <b-button type="is-text" @click="() => (this.collapseStatus.incomplete = !this.collapseStatus.incomplete)">
-                                             <b-icon :icon="!collapseStatus.incomplete ? 'menu-down' : 'menu-up'"> </b-icon>
+                                             <b-icon :icon="!collapseStatus.incomplete ? 'chevron-down' : 'chevron-up'"> </b-icon>
                                         </b-button>
                                    </div>
                               </div>
