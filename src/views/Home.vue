@@ -201,9 +201,11 @@
                uploadFile() {
                     this.$store.commit("incrementCurrentUpload");
 
-                    if (this.currentUploadingFile.uploadProgress > 90) {
+                    if (this.currentUploadingFile.uploadProgress >= 100) {
+                         //download complete
                          this.currentUploadComplete();
                     } else if (this.currentUploadingFile.fail && this.currentUploadingFile.uploadProgress > 50) {
+                         //download failed
                          this.currentUploadFailed();
                     }
                },
@@ -211,10 +213,13 @@
                async startUpload() {
                     if (this.files.nextup.length > 0) {
                          await this.$store.dispatch("startUpload");
-                         this.uploadinterval = setInterval(this.uploadFile, 100);
+
+                         //uploadFile() called every 50ms to increment file upload count
+                         this.uploadinterval = setInterval(this.uploadFile, 50);
                     }
                },
 
+               //adds new file to the list of files
                async newfile() {
                     let newfile = this.getRandomFile();
 
@@ -236,6 +241,7 @@
                     }
                },
 
+               //return a random file name and type
                getRandomFile() {
                     let randomFiles = [
                          { type: "pdf", name: "Random.pdf" },
@@ -263,7 +269,7 @@
                          this.startUpload();
                     }
                },
-
+               //triggers when current upload is complete
                currentUploadComplete() {
                     clearInterval(this.uploadinterval);
                     this.uploadinterval = false;
@@ -272,6 +278,8 @@
 
                     this.startUpload();
                },
+
+               //triggers when current upload fails
                currentUploadFailed() {
                     clearInterval(this.uploadinterval);
                     this.uploadinterval = false;
@@ -290,6 +298,7 @@
                     });
                },
 
+               //call to cancel current upload
                cancelCurrentUpload() {
                     if (this.uploadinterval) {
                          clearInterval(this.uploadinterval);
@@ -310,6 +319,7 @@
                     }
                },
 
+               //call to cancel all files
                cancelAll() {
                     this.$store.commit("cancelAll");
 
@@ -323,6 +333,7 @@
                     });
                },
 
+               //remove file when close button is clicked
                removeFile(fileID, status) {
                     if (status == "WAITING") {
                          this.$store.commit("removeFileFromNextUp", { fileID: fileID });

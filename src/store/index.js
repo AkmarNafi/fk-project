@@ -37,7 +37,7 @@ export default new Vuex.Store({
                state.nextup.push(params.file);
           },
           incrementCurrentUpload(state, params) {
-               state.uploading[0].uploadProgress += 3;
+               state.uploading[0].uploadProgress++;
           },
 
           currentUploadComplete(state, params) {
@@ -92,7 +92,6 @@ export default new Vuex.Store({
           },
 
           removeFileFromNextUp(state, params) {
-               console.log("hi");
                let fileID = params.fileID;
                const itemIndex = state.nextup.findIndex((file) => file.id === fileID);
                state.nextup.splice(itemIndex, 1);
@@ -119,17 +118,17 @@ export default new Vuex.Store({
      },
      actions: {
           async startUpload({ state, commit }, params) {
-               //move next file to upload
                commit("startNextUpload");
-
-               //uploading increment
           },
           async addFileToUpload({ state, commit }, params) {
-               //move next file to upload
                commit("addNewFile", { file: params.file });
-
-               //uploading increment
           },
+
+          //retry uploading a file with given id
+          // async retryUpload({ state, commit }, params) {},
+
+          //retry uploading all files in incomplete array
+          // async retryAllUploads({ state, commit }, params) {},
      },
      modules: {},
 });
