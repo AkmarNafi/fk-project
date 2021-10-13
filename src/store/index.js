@@ -41,29 +41,40 @@ export default new Vuex.Store({
           },
 
           currentUploadComplete(state, params) {
-               let uploadedFile = state.uploading.pop();
-               state.completed.unshift(uploadedFile);
+               let file = state.uploading.pop();
+               file.status = "SUCCESS";
+               state.completed.unshift(file);
           },
           currentUploadFailed(state, params) {
-               let uploadedFile = state.uploading.pop();
+               let file = state.uploading.pop();
 
-               uploadedFile.failed = true;
-               state.incompleteUploads.unshift(uploadedFile);
+               file.status = "FAILED";
+               state.incompleteUploads.unshift(file);
           },
           currentUploadCancelled(state, params) {
-               let uploadedFile = state.uploading.pop();
+               let file = state.uploading.pop();
+               file.status = "CANCELLED";
 
-               uploadedFile.cancelled = true;
-               state.incompleteUploads.unshift(uploadedFile);
+               state.incompleteUploads.unshift(file);
           },
 
           cancelAll(state, params) {
                while (state.nextup.length > 0) {
-                    let uploadedFile = state.nextup.pop();
+                    let file = state.nextup.pop();
+                    file.status = "CANCELLED";
 
-                    uploadedFile.cancelled = true;
-                    state.incompleteUploads.unshift(uploadedFile);
+                    state.incompleteUploads.unshift(file);
                }
+          },
+
+          retryUpload(state, params) {
+               let fileID = params.fileID;
+
+               const itemIndex = state.incompleteUploads.findIndex((file) => file.id === fileID);
+               let file = state.incompleteUploads[itemIndex];
+
+               state.incompleteUploads.splice(itemIndex, 1);
+               state.nextup.push(file);
           },
      },
      actions: {
