@@ -1,0 +1,83 @@
+@import "buefy.scss";
+
+h2 {
+     color: $text-heading;
+     font-weight: 600;
+     font-size: 16px;
+     font-weight: 500;
+}
+
+body {
+     color: $text-main;
+     font-family: "Poppins", sans-serif;
+}
+
+p {
+     font-size: 17px;
+     font-weight: 300;
+}
+
+/*================================ Helpers ==============================*/
+.capitalize {
+     text-transform: capitalize;
+}
+.text-center {
+     text-align: center;
+}
+.bgr {
+     background-color: red;
+}
+.bgb {
+     background-color: blue;
+}
+
+/*================================ spacing ==============================*/
+
+.mt-10 {
+     margin-top: 10px;
+}
+.mt-20 {
+     margin-top: 20px;
+}
+.mt-30 {
+     margin-top: 30px;
+}
+.mt-40 {
+     margin-top: 40px;
+}
+.mt-50 {
+     margin-top: 50px;
+}
+.mt-60 {
+     margin-top: 60px;
+}
+.mt-70 {
+     margin-top: 70px;
+}
+.mt-80 {
+     margin-top: 80px;
+}
+.mb-10 {
+     margin-bottom: 10px;
+}
+.mb-20 {
+     margin-bottom: 20px;
+}
+.mb-30 {
+     margin-bottom: 30px;
+}
+.mb-40 {
+     margin-bottom: 40px;
+}
+.mb-50 {
+     margin-bottom: 50px;
+}
+.mb-60 {
+     margin-bottom: 60px;
+}
+.mb-70 {
+     margin-bottom: 70px;
+}
+.mb-80 {
+     margin-bottom: 80px;
+}
