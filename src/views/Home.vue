@@ -33,7 +33,7 @@
                               </div>
 
                               <div>
-                                   <b-button class="is-uppercase  is-text " @click="cancelCurrentUpload">Cancel upload</b-button>
+                                   <b-button class="is-uppercase  is-text  action-btn " @click="cancelCurrentUpload">Cancel upload</b-button>
                               </div>
                               <div>
                                    <div class="status-col">
@@ -67,7 +67,7 @@
                               </div>
 
                               <div>
-                                   <b-button class="is-uppercase  is-text  " @click="cancelAll">Cancel all</b-button>
+                                   <b-button class="is-uppercase  is-text action-btn " @click="cancelAll">Cancel all</b-button>
                               </div>
                               <div>
                                    <div class="status-col">
@@ -99,7 +99,9 @@
                               <div class="column">
                                    <h2>Completed</h2>
                               </div>
-
+                              <div>
+                                   <b-button class="is-uppercase  is-text action-btn " @click="$store.commit('clearCompleted')">Dismiss all</b-button>
+                              </div>
                               <div>
                                    <div class="status-col">
                                         <b-button type="is-text" @click="() => (this.collapseStatus.completed = !this.collapseStatus.completed)">
@@ -130,7 +132,12 @@
                               <div class="column">
                                    <h2>Incomplete Uploads</h2>
                               </div>
-
+                              <div>
+                                   <b-button class="is-uppercase  is-text action-btn " @click="retryAllUpload">Retry all</b-button>
+                                   <b-button class="is-uppercase  is-text action-btn " @click="$store.commit('clearIncompleted')"
+                                        >Dismiss all</b-button
+                                   >
+                              </div>
                               <div>
                                    <div class="status-col">
                                         <b-button
@@ -252,6 +259,14 @@
                          this.startUpload();
                     }
                },
+               retryAllUpload() {
+                    this.$store.commit("retryAllUploads");
+
+                    if (!this.uploadinterval) {
+                         this.startUpload();
+                    }
+               },
+
                currentUploadComplete() {
                     clearInterval(this.uploadinterval);
                     this.uploadinterval = false;
@@ -334,6 +349,11 @@
                padding-bottom: 15px;
 
                border-bottom: 1px solid $border;
+
+               .action-btn {
+                    color: $darkblue;
+                    font-size: 14px;
+               }
           }
 
           .file-section-body {

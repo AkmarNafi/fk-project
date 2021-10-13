@@ -67,14 +67,36 @@ export default new Vuex.Store({
                }
           },
 
+          retryAllUploads(state, params) {
+               while (state.incompleteUploads.length > 0) {
+                    let file = state.incompleteUploads.pop();
+                    file.status = "WAITING";
+                    file.fail = false;
+                    file.uploadProgress = 0;
+                    state.nextup.unshift(file);
+               }
+          },
+
           retryUpload(state, params) {
                let fileID = params.fileID;
 
                const itemIndex = state.incompleteUploads.findIndex((file) => file.id === fileID);
                let file = state.incompleteUploads[itemIndex];
 
+               file.status = "WAITING";
+               file.fail = false;
+               file.uploadProgress = 0;
+
                state.incompleteUploads.splice(itemIndex, 1);
                state.nextup.push(file);
+          },
+
+          clearCompleted(state, params) {
+               state.completed = [];
+          },
+
+          clearIncompleted(state, params) {
+               state.incompleteUploads = [];
           },
      },
      actions: {
