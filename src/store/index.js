@@ -8,7 +8,7 @@ export default new Vuex.Store({
           uploading: [],
           nextup: [],
           completed: [],
-          incompleteUploads: [],
+          incomplete: [],
      },
 
      getters: {
@@ -17,7 +17,7 @@ export default new Vuex.Store({
                     uploading: state.uploading,
                     nextup: state.nextup,
                     completed: state.completed,
-                    incompleteUploads: state.incompleteUploads,
+                    incomplete: state.incomplete,
                };
           },
 
@@ -49,13 +49,13 @@ export default new Vuex.Store({
                let file = state.uploading.pop();
 
                file.status = "FAILED";
-               state.incompleteUploads.unshift(file);
+               state.incomplete.unshift(file);
           },
           currentUploadCancelled(state, params) {
                let file = state.uploading.pop();
                file.status = "CANCELLED";
 
-               state.incompleteUploads.unshift(file);
+               state.incomplete.unshift(file);
           },
 
           cancelAll(state, params) {
@@ -63,13 +63,13 @@ export default new Vuex.Store({
                     let file = state.nextup.pop();
                     file.status = "CANCELLED";
 
-                    state.incompleteUploads.unshift(file);
+                    state.incomplete.unshift(file);
                }
           },
 
           retryAllUploads(state, params) {
-               while (state.incompleteUploads.length > 0) {
-                    let file = state.incompleteUploads.pop();
+               while (state.incomplete.length > 0) {
+                    let file = state.incomplete.pop();
                     file.status = "WAITING";
                     file.fail = false;
                     file.uploadProgress = 0;
@@ -80,15 +80,33 @@ export default new Vuex.Store({
           retryUpload(state, params) {
                let fileID = params.fileID;
 
-               const itemIndex = state.incompleteUploads.findIndex((file) => file.id === fileID);
-               let file = state.incompleteUploads[itemIndex];
+               const itemIndex = state.incomplete.findIndex((file) => file.id === fileID);
+               let file = state.incomplete[itemIndex];
 
                file.status = "WAITING";
                file.fail = false;
                file.uploadProgress = 0;
 
-               state.incompleteUploads.splice(itemIndex, 1);
+               state.incomplete.splice(itemIndex, 1);
                state.nextup.push(file);
+          },
+
+          removeFileFromNextUp(state, params) {
+               console.log("hi");
+               let fileID = params.fileID;
+               const itemIndex = state.nextup.findIndex((file) => file.id === fileID);
+               state.nextup.splice(itemIndex, 1);
+               console.log(itemIndex);
+          },
+          removeFileFromCompleted(state, params) {
+               let fileID = params.fileID;
+               const itemIndex = state.completed.findIndex((file) => file.id === fileID);
+               state.completed.splice(itemIndex, 1);
+          },
+          removeFileFromIncomplete(state, params) {
+               let fileID = params.fileID;
+               const itemIndex = state.incomplete.findIndex((file) => file.id === fileID);
+               state.incomplete.splice(itemIndex, 1);
           },
 
           clearCompleted(state, params) {
@@ -96,7 +114,7 @@ export default new Vuex.Store({
           },
 
           clearIncompleted(state, params) {
-               state.incompleteUploads = [];
+               state.incomplete = [];
           },
      },
      actions: {

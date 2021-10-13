@@ -1,5 +1,9 @@
 <template>
      <div class="file-widget">
+          <div class="close-btn" @click="$emit('remove')" v-if="data.status !== 'UPLOADING'">
+               <b-icon icon="close" size="is-small"> </b-icon>
+          </div>
+
           <div class="columns is-mobile is-vcentered">
                <div class="file-icon">
                     <img v-once v-if="data.type == 'pdf'" src="../assets/images/file-thumbnail-pdf.svg" alt="" class="" />
@@ -127,6 +131,7 @@
 <style lang="scss" scoped>
      @import "@/assets/styles/variables.scss";
      .file-widget {
+          position: relative;
           width: 100%;
           margin-bottom: 15px;
 
@@ -142,6 +147,13 @@
                img {
                     width: 100%;
                }
+          }
+
+          .close-btn {
+               position: absolute;
+               top: 8px;
+               right: 10px;
+               cursor: pointer;
           }
 
           .status-col {

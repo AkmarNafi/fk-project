@@ -86,7 +86,7 @@
                               </div>
                               <div class="columns is-multiline m-0">
                                    <div class="column is-4 " v-for="item in files.nextup" :key="item.id">
-                                        <file-widget :data="item"> </file-widget>
+                                        <file-widget :data="item" @remove="removeFile(item.id, 'WAITING')"> </file-widget>
                                    </div>
                               </div>
                          </div>
@@ -119,7 +119,7 @@
                               </div>
                               <div class="columns is-multiline m-0">
                                    <div class="column is-4 " v-for="item in files.completed" :key="item.id">
-                                        <file-widget :data="item"> </file-widget>
+                                        <file-widget :data="item" @remove="removeFile(item.id, 'COMPLETED')"> </file-widget>
                                    </div>
                               </div>
                          </div>
@@ -140,25 +140,22 @@
                               </div>
                               <div>
                                    <div class="status-col">
-                                        <b-button
-                                             type="is-text"
-                                             @click="() => (this.collapseStatus.incompleteUploads = !this.collapseStatus.incompleteUploads)"
-                                        >
-                                             <b-icon :icon="!collapseStatus.incompleteUploads ? 'menu-down' : 'menu-up'"> </b-icon>
+                                        <b-button type="is-text" @click="() => (this.collapseStatus.incomplete = !this.collapseStatus.incomplete)">
+                                             <b-icon :icon="!collapseStatus.incomplete ? 'menu-down' : 'menu-up'"> </b-icon>
                                         </b-button>
                                    </div>
                               </div>
                          </div>
                     </div>
 
-                    <b-collapse aria-id="" class="" animation="slide" v-model="collapseStatus.incompleteUploads">
+                    <b-collapse aria-id="" class="" animation="slide" v-model="collapseStatus.incomplete">
                          <div class="file-section-body">
-                              <div v-if="files.incompleteUploads.length == 0" class="placeholder-message">
+                              <div v-if="files.incomplete.length == 0" class="placeholder-message">
                                    No incomplete upoads yet.
                               </div>
                               <div class="columns is-multiline m-0">
-                                   <div class="column is-4 " v-for="item in files.incompleteUploads" :key="item.id">
-                                        <file-widget :data="item" @retry="retryUpload(item)"> </file-widget>
+                                   <div class="column is-4 " v-for="item in files.incomplete" :key="item.id">
+                                        <file-widget :data="item" @retry="retryUpload(item)" @remove="removeFile(item.id, 'FAILED')"> </file-widget>
                                    </div>
                               </div>
                          </div>
@@ -181,7 +178,7 @@
                          uploading: true,
                          nextup: true,
                          completed: true,
-                         incompleteUploads: true,
+                         incomplete: true,
                     },
                     uploadinterval: false,
                };
@@ -324,6 +321,16 @@
                          actionText: null,
                          queue: false,
                     });
+               },
+
+               removeFile(fileID, status) {
+                    if (status == "WAITING") {
+                         this.$store.commit("removeFileFromNextUp", { fileID: fileID });
+                    } else if (status == "COMPLETED") {
+                         this.$store.commit("removeFileFromCompleted", { fileID: fileID });
+                    } else if (status == "FAILED") {
+                         this.$store.commit("removeFileFromIncomplete", { fileID: fileID });
+                    }
                },
           },
      };
