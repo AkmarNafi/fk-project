@@ -6,11 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
      state: {
           uploading: [],
-          nextup: [
-               //  { id: 1, type: "img", name: "test.png", status: "WAITING", size: "1.2MB", uploadProgress: 0, fail: true },
-               //  { id: 2, type: "zip", name: "test.zip", status: "WAITING", size: "1.2MB", uploadProgress: 0, fail: false },
-               //  { id: 3, type: "pdf", name: "test.pdf", status: "WAITING", size: "1.2MB", uploadProgress: 0, fail: true },
-          ],
+          nextup: [],
           completed: [],
           incompleteUploads: [],
      },
